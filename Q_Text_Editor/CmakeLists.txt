@@ -1,0 +1,55 @@
+cmake_minimum_required(VERSION 3.16) # Qt 6 nécessite au moins CMake 3.16
+
+project("Q_Text_Editor")
+
+set(CMAKE_AUTORCC ON)
+
+# Liste des fichiers d'en-tête
+set(HEADER_FILES
+    Mainwindow.h
+)
+
+# Liste des fichiers sources
+set(SOURCE_FILES
+    main.cpp
+    Mainwindow.cpp
+)
+
+# Liste des fichiers resources
+set(RESOURCES_FILES
+    resources/resources.qrc
+)
+
+# Recherche des modules Qt6 nécessaires
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
+# Ajout de l'exécutable
+add_executable(Q_Text_Editor
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
+    ${RESOURCES_FILES}
+)
+
+# Liaison avec les bibliothèques Qt6
+target_link_libraries(Q_Text_Editor
+    PUBLIC
+        Qt6::Widgets
+)
+
+# Windows : Définitions et options spécifiques
+if(WIN32)
+    target_compile_definitions(Q_Text_Editor
+        PRIVATE
+            OS_WINDOWS=1
+    )
+    target_compile_options(Q_Text_Editor
+        PRIVATE
+            /WX
+    )
+endif()
+
+# Activer C++17 et désactiver les extensions spécifiques au compilateur
+target_compile_features(Q_Text_Editor PUBLIC cxx_std_17)
+set_target_properties(Q_Text_Editor PROPERTIES
+    CXX_EXTENSIONS OFF
+)
